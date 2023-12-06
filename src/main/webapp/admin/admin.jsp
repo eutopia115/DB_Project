@@ -1,14 +1,59 @@
 <%@ page import="classes.SQLx" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../common/dbconn.jsp" %>
+<%@ page import="java.time.LocalDate" %>
 <html>
+
+<title>마이 페이지</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="../style/main.css" rel="stylesheet">
+<style>
+
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans KR', sans-serif; /* Noto Sans KR 글꼴 적용 */
+        background-color: #fff;
+        color: #333;
+    }
+
+
+    .card {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        margin-top: 20px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .btn {
+        background-color: #fff; /* 흰색 배경 */
+        color: #333; /* 텍스트 색상을 어두운 색상으로 설정 */
+        border: 1px solid #333; /* 테두리 색상을 어두운 색상으로 설정 */
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    /* 클릭 또는 호버 시 배경색과 텍스트 색상 변경 */
+    .btn:hover, .btn:focus {
+        background-color: #ccc; /* 클릭 또는 호버 시 배경색을 어두운 회색으로 변경 */
+        color: #333; /* 클릭 또는 호버 시 텍스트 색상을 어두운 색상으로 유지 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 클릭 또는 호버 시 그림자 효과 추가 */
+    }
+</style>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin page</title>
     <%
+        LocalDate now = LocalDate.now();
+        int month = now.getMonthValue();
         String sqlIncome = SQLx.Selectx("SUM(PREPAID_MONEY)", "MEMBER");
-        String sqlOutMatch = SQLx.Selectx("SUM(WAGE)", "MATCH");
-        String sqlOutTrain = SQLx.Selectx("SUM(WAGE)", "TRAINING");
+        String sqlOutMatch = SQLx.Selectx("SUM(WAGE)", "MATCH","WHERE DATE_TIME LIKE '%"+month+"%'");
+        String sqlOutTrain = SQLx.Selectx("SUM(WAGE)", "TRAINING", "WHERE DATE_TIME LIKE '%"+month+"%'");
         pst = conn.prepareStatement(sqlIncome);
         rs = pst.executeQuery();
         rs.next();
@@ -25,30 +70,16 @@
 </head>
 <body>
 <jsp:include page="menu.jsp"/>
+<div class="container my-4">
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">총 예치금: <%= totalDeposit %> 원</p>
+            <p class="card-text"><%=month%>월 소셜매치 지불 예정 금액: <%= socialMatchPaymentExpectedAmount %> 원</p>
+            <p class="card-text"><%=month%>월 트레이닝 지불 예정 금액: <%= expectedTrainingPaymentAmount %> 원</p>
+        </div>
+    </div>
+</div>
 <br>
 <br>
-
-<%--<div style="display:flex;justify-content: center;width: 100%;gap: 100px">--%>
-<%--    <input type="button" value="User" name="1" onclick="location.href='userMod.jsp'" style="font-size: 25pt; font-family: Arial serif; background-color: white; border-radius: 8px; border-color: grey"/>--%>
-<%--    <input type="button" value="Team" name="2" onclick="location.href='teamMod.jsp'" style="font-size: 25pt; font-family: Arial serif; background-color: white; border-radius: 8px; border-color: grey"/>--%>
-<%--    <input type="button" value="Owner" name="3" onclick="location.href='ownerMod.jsp'" style="font-size: 25pt; font-family: Arial serif; background-color: white; border-radius: 8px; border-color:grey"/>--%>
-<%--    <input type="button" value="Field" name="4" onclick="location.href='fieldMod.jsp'" style="font-size: 25pt; font-family: Arial serif; background-color: white; border-radius: 8px; border-color: grey"/>--%>
-<%--    <input type="button" value="Match" name="5" onclick="location.href='matchMod.jsp'" style="font-size:     25pt; font-family: Arial serif; background-color: white; border-radius: 8px; border-color: grey"/>--%>
-<%--    <input type="button" value="Training" name="6" onclick="location.href='trainMod.jsp'" style="font-size: 25pt; font-family: Arial serif; background-color: white; border-radius: 8px; border-color: grey"/>--%>
-<%--    <input type="button" value="Check Information" onclick="location.href='checkInfo.jsp'" style="font-size: 25pt; font-family: Arial serif; background-color: white; border-radius: 8px; border-color: grey"/>--%>
-<%--</div>--%>
-<%--<br>--%>
-<%--<div style="width: 80%; height: 1px; background-color: grey; margin: 0 auto"></div>--%>
-<%--<br>--%>
-<%--<div style="display:flex;justify-content: center; margin: 0 auto; font-family: Arial serif; font-size: 20pt; font-style: italic">--%>
-<%--    <br>--%>
-<%--    <br>--%>
-<%--    안녕하세요, 관리자님<br><br>--%>
-<%--    관리 모드로 로그인하셨습니다.<br><br>--%>
-<%--    상단 메뉴를 통해 관리하고자 하는 테이블을 선택해주십시오.<br><br>--%>
-<%--</div>--%>
-
-
-
 </body>
 </html>
