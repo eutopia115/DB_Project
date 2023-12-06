@@ -187,7 +187,7 @@
             ResultSet matchResultSet = pstmt.executeQuery();
             while (matchResultSet.next()) {
                 String matchId = matchResultSet.getString(1);
-                Timestamp dateTime = matchResultSet.getTimestamp(2);
+                Date dateTime = matchResultSet.getDate(2);
                 String placeName = matchResultSet.getString(10);
                 int maxNum = matchResultSet.getInt(5);
                 int currentNum = matchResultSet.getInt(11);

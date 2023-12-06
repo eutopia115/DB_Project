@@ -173,10 +173,10 @@
                     String costQuery = SQLx.Selectx("COST_PER_ONE", "TRAINING", "CLASS_ID = '" + selectedClassId + "'", "");
                     PreparedStatement costPstmt = conn.prepareStatement(costQuery);
                     ResultSet costRs = costPstmt.executeQuery();
-                    double costPerOne = 0;
+                    int costPerOne = 0;
 
                     if (costRs.next()) {
-                        costPerOne = costRs.getDouble("COST_PER_ONE");
+                        costPerOne = costRs.getInt(1);
                     }
 
                     // TRAIN_ENROLLS에서 선택된 트레이닝 기록 삭제

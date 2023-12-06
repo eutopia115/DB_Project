@@ -164,10 +164,10 @@
                     String costQuery = SQLx.Selectx("COST_PER_ONE", "MATCH", "MATCH_ID = '" + selectedMatchId + "'", "");
                     PreparedStatement costPstmt = conn.prepareStatement(costQuery);
                     ResultSet costRs = costPstmt.executeQuery();
-                    double costPerOne = 0;
+                    int costPerOne = 0;
 
                     if (costRs.next()) {
-                        costPerOne = costRs.getDouble("COST_PER_ONE");
+                        costPerOne = costRs.getInt(1);
                     }
 
                     // MATCH_APP_MEMBER에서 선택된 매치 기록 삭제
@@ -195,7 +195,7 @@
                 rs = pstmt.executeQuery();
 
                 while (rs.next()) {
-                    String matchId = rs.getString("MATCH_ID");
+                    String matchId = rs.getString(1);
             %>
             <tr>
                 <td><%= matchId %></td>

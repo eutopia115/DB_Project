@@ -163,7 +163,7 @@
             ResultSet tierRs = tierPstmt.executeQuery();
 
             if (tierRs.next()) {
-                tier = tierRs.getString("TIER"); // 티어 정보 저장
+                tier = tierRs.getString(1); // 티어 정보 저장
             }
 
             rs.close();
