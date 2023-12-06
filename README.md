@@ -1,6 +1,6 @@
 # DB_TermProject : SOCCERLINK
 **TEAM6 : 김승준, 서동혁, 황두영**
-  - Youtube Demo :
+  - Youtube Demo : https://youtu.be/h8gq51js2U8
   - GitHub Repository : https://github.com/eutopia115/DB_Project
 
 **Tips**
